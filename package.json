@@ -1,0 +1,14 @@
+{
+  "name": "21880159-ptudw",
+  "version": "1.0.0",
+  "description": "Project PTUDW",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "VinhNguyen",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
