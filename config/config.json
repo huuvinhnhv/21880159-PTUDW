@@ -1,5 +1,19 @@
 {
   "development": {
+    "username": "postgres",
+    "password": 123456,
+    "database": "aromadb",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": 123456,
+    "database": "aromadb",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
     "username": "weiuhmxvoxzbnw",
     "password": "dba1017331f90f3de117b07cd63209ac1f86c46a5b90ada768b7feeb71138b04",
     "database": "d1bj2ctsprra2m",
@@ -11,19 +25,5 @@
         "rejectUnauthorized": false
       }
     }
-  },
-  "test": {
-    "username": "postgres",
-    "password": 123456,
-    "database": "aromadb",
-    "host": "localhost",
-    "dialect": "postgres"
-  },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
   }
 }
