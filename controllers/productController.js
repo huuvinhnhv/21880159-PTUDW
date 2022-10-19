@@ -22,7 +22,7 @@ controller.getTopProducts = () => {
             .findAll({
                 order: [['overallReview', 'DESC']],
                 limit: 12,
-                attributes: ['id', 'name', 'thumbnailPath', 'price']
+                attributes: ['id', 'name', 'thumbnailPath', 'price', 'categoryId']
             })
             .then(data => resolve(data))
             .catch(err => reject(new Error(err)));
@@ -140,7 +140,6 @@ controller.getById = (id) => {
                     stars.push(reviews.filter(item => (item.rating == i)).length);
                 }
                 product.stars = stars;
-                console.log(stars);
                 resolve(product);
             })
             .catch(err => reject(new Error(err)));

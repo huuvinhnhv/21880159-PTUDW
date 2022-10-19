@@ -26,13 +26,39 @@ let hbs = expressHbs.create({
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
+//body parser
+let bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//use cookie parser
+let cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+//use session
+let session = require('express-session');
+app.use(session({
+    cookie: { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 },
+    secret: 'S3cret',
+    resave: false,
+    saveUninitialized: false
+}));
+
+//use cart controller
+let Cart = require('./controllers/cartController');
+app.use((req, res, next) => {
+    var cart = new Cart(req.session.cart ? req.session.cart : {});
+    req.session.cart = cart;
+    res.locals.totalQuantity = cart.totalQuantity;
+    next();
+})
 //define your routes here
 // / => index
 // /products => category
 // /products/:id => single + product
-app.use('/', require('./routes/indexRouter'))
-app.use('/products', require('./routes/productRouter'))
-
+app.use('/', require('./routes/indexRouter'));
+app.use('/products', require('./routes/productRouter'));
+app.use('/cart', require('./routes/cartRouter'));
 app.get('/sync', (req, res) => {
     let models = require('./models');
     models.sequelize.sync()
