@@ -50,6 +50,10 @@ app.use((req, res, next) => {
     var cart = new Cart(req.session.cart ? req.session.cart : {});
     req.session.cart = cart;
     res.locals.totalQuantity = cart.totalQuantity;
+    //session user
+    res.locals.fullname = req.session.user ? req.session.user.fullname : '';
+    res.locals.isLoggedIn = req.session.user ? true : false;
+
     next();
 })
 //define your routes here
@@ -59,72 +63,20 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/indexRouter'));
 app.use('/products', require('./routes/productRouter'));
 app.use('/cart', require('./routes/cartRouter'));
+app.use('/comments', require('./routes/commentRouter'));
+app.use('/reviews', require('./routes/reviewRouter'));
+app.use('/users', require('./routes/userRouter'));
+
+
 app.get('/sync', (req, res) => {
     let models = require('./models');
     models.sequelize.sync()
         .then(() => { res.send('database sync complete!') });
 });
-// app.get('/:page', (req, res) => {
-//     let banners = {
-//         blog: {
-//             banner1: 'Our Blog',
-//             banner2: 'Blog'
-//         },
-//         products: {
-//             banner1: 'Shop Category',
-//             banner2: 'Shop Category'
-//         },
-//         cart: {
-//             banner1: 'Shopping Cart',
-//             banner2: 'Shopping Cart'
-//         },
-//         checkout: {
-//             banner1: 'Product Checkout',
-//             banner2: 'Checkout'
-//         },
-//         confirmation: {
-//             banner1: 'Order Confirmation',
-//             banner2: 'Shop Category'
-//         },
-//         contact: {
-//             banner1: 'Contact Us',
-//             banner2: 'Contact Us'
-//         },
-//         login: {
-//             banner1: 'Login / Register',
-//             banner2: 'Login/Register'
-//         },
-//         register: {
-//             banner1: 'Register',
-//             banner2: 'Register'
-//         },
-//         'single-blog': {
-//             banner1: 'Blog Details',
-//             banner2: 'Blog Details'
-//         },
-//         'single-product': {
-//             banner1: 'Shop Single',
-//             banner2: 'Shop Single'
-//         },
-//         'tracking-order': {
-//             banner1: 'Order Tracking',
-//             banner2: 'Order Tracking'
-//         }
-//     };
-//     let page = req.params.page;
-//     console.log("\n" + page + "\n");
-//     console.log("\n" + page + "\n");
-//     console.log("\n" + page + "\n");
-//     console.log("\n" + page + "\n");
-//     console.log("\n" + page + "\n");
-
-//     Object.keys(banners).forEach(key => {
-//         if (key == page) {
-//             res.render(page, { banner1: banners[page].banner1, banner2: banners[page].banner2 });
-//         }
-//     });
-
-// });
+app.get('/:page', (req, res) => {
+    let page = req.params.page;
+    res.render(page);
+});
 
 //set sever port and start server
 app.set('port', process.env.PORT || 5000);

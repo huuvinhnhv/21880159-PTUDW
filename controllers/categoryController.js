@@ -9,6 +9,7 @@ controller.getAll = (query) => {
             attributes: ['id', 'name', 'imagepath', 'summary'],
             include: [{
                 model: models.Product,
+                attributes: ['id'],
                 where: {}
             }]
         };
@@ -18,8 +19,10 @@ controller.getAll = (query) => {
             }
         }
         Category
-            .findAll()
-            .then(data => resolve(data))
+            .findAll(options)
+            .then(data => {
+                resolve(data)
+            })
             .catch(err => reject(new Error(err)));
     });
 };

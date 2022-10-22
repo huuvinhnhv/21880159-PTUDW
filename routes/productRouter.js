@@ -33,11 +33,13 @@ router.get('/', (req, res) => {
         .getAll(req.query)
         .then(data => {
             res.locals.categories = data;
+            console.log(JSON.stringify(data));
             let brandController = require('../controllers/brandController');
             return brandController.getAll(req.query);
         })
         .then(data => {
             res.locals.brands = data;
+
             let colorController = require('../controllers/colorController');
             return colorController.getAll(req.query);
         })
@@ -77,7 +79,12 @@ router.get('/:id', (req, res) => {
         .getById(req.params.id)
         .then(product => {
             res.locals.product = product;
-            res.render('single-product')
+            let reviewController = require('../controllers/reviewController');
+            return reviewController.getUserReviewProduct(1, req.params.id);
+        })
+        .then(review => {
+            res.locals.userReview = review;
+            res.render('single-product');
         })
         .catch(err => next(err));
 
